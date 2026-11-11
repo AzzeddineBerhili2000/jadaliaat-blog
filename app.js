@@ -152,7 +152,7 @@
     if (b.table) {
       return '<div class="tbl"><table><thead><tr>' + b.table.head.map(function (h) { return '<th>' + h + '</th>'; }).join('') +
         '</tr></thead><tbody>' + b.table.rows.map(function (r) {
-          return '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+          return '<tr>' + r.map(function (c, i) { return '<td data-label="' + b.table.head[i] + '">' + c + '</td>'; }).join('') + '</tr>';
         }).join('') + '</tbody></table></div>';
     }
     if (b.quote) return '<blockquote class="quote">' + b.quote + (b.cite ? '<cite>' + b.cite + '</cite>' : '') + '</blockquote>';
