@@ -149,6 +149,12 @@
         return '<li><span class="when">' + t.when + '</span><div><b>' + t.who + '</b> ' + t.text + '</div></li>';
       }).join('') + '</ol>';
     }
+    if (b.table) {
+      return '<div class="tbl"><table><thead><tr>' + b.table.head.map(function (h) { return '<th>' + h + '</th>'; }).join('') +
+        '</tr></thead><tbody>' + b.table.rows.map(function (r) {
+          return '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+        }).join('') + '</tbody></table></div>';
+    }
     if (b.quote) return '<blockquote class="quote">' + b.quote + (b.cite ? '<cite>' + b.cite + '</cite>' : '') + '</blockquote>';
     if (b.note) return '<div class="note"><span class="tag">' + (b.label || 'منهجية') + '</span><p>' + b.note + '</p></div>';
     if (b.conclusion) return '<div class="wash"><span class="lbl">' + (b.label || 'الخلاصة') + '</span>' + b.conclusion + '</div>';
