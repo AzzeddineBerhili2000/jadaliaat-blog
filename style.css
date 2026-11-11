@@ -378,6 +378,56 @@ legend { font-family: var(--f-label); font-size: .78rem; color: var(--crimson); 
 
 .noscript { padding: 40px 0; }
 
+.tag-red { background: var(--crimson); }
+.fallacy-index {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin: 14px 0 0;
+  font-size: 1rem;
+  color: var(--ink-2);
+}
+.fallacy { border: 1px solid var(--crimson); padding: 12px 18px 14px; margin: 18px 0 22px; }
+.fallacy-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin-bottom: 6px; }
+.fallacy-head strong { font-size: 1.18rem; color: var(--crimson); }
+.fallacy-head small { font-family: var(--f-label); font-size: .74rem; color: var(--ink-3); }
+.fallacy p { margin: 0; }
+.fallacy .eg {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--rule);
+  color: var(--ink-2);
+  font-size: 1rem;
+  line-height: 1.85;
+}
+.fallacy .eg span { display: block; font-family: var(--f-label); font-size: .74rem; color: var(--crimson); }
+
+.timeline { list-style: none; padding: 0; margin: 16px 0 20px; border-inline-start: 2px solid var(--crimson); }
+.timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 0 14px;
+  padding: 9px 0;
+  padding-inline-start: 18px;
+  border-bottom: 1px dashed var(--rule);
+  line-height: 1.85;
+}
+.timeline li:last-child { border-bottom: 0; }
+.timeline li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -7px;
+  top: 1.15em;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--crimson);
+}
+.timeline .when { font-family: var(--f-label); font-size: .78rem; color: var(--crimson); padding-top: 5px; line-height: 1.6; }
+
 /* ── Responsive ────────────────────────────────────────────────── */
 @media (max-width: 760px) {
   .mast-nav {
@@ -406,6 +456,7 @@ legend { font-family: var(--f-label); font-size: .78rem; color: var(--crimson); 
   .q-num b { font-size: 2.4rem; }
   .q h2 { font-size: 1.3rem; }
   .pager { grid-template-columns: 1fr; }
+  .timeline li { grid-template-columns: 1fr; }
   .pager .next { text-align: right; }
 }
 @media (prefers-reduced-motion: reduce) {

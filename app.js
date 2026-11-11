@@ -139,6 +139,16 @@
         return '<li style="--c:' + SEQ[i % SEQ.length] + '"><small>' + s.label + '</small>' + s.text + '</li>';
       }).join('') + '</ol>';
     }
+    if (b.fallacy) {
+      return '<div class="fallacy"><div class="fallacy-head"><span class="tag tag-red">مغالطة</span><strong>' + b.fallacy + '</strong>' +
+        (b.en ? '<small dir="ltr">' + b.en + '</small>' : '') + '</div><p>' + b.text + '</p>' +
+        (b.example ? '<p class="eg"><span>مثال من الحياة اليومية</span>' + b.example + '</p>' : '') + '</div>';
+    }
+    if (b.timeline) {
+      return '<ol class="timeline">' + b.timeline.map(function (t) {
+        return '<li><span class="when">' + t.when + '</span><div><b>' + t.who + '</b> ' + t.text + '</div></li>';
+      }).join('') + '</ol>';
+    }
     if (b.quote) return '<blockquote class="quote">' + b.quote + (b.cite ? '<cite>' + b.cite + '</cite>' : '') + '</blockquote>';
     if (b.note) return '<div class="note"><span class="tag">' + (b.label || 'منهجية') + '</span><p>' + b.note + '</p></div>';
     if (b.conclusion) return '<div class="wash"><span class="lbl">' + (b.label || 'الخلاصة') + '</span>' + b.conclusion + '</div>';
@@ -149,6 +159,12 @@
     var idx = ORDER.indexOf(a);
     var prev = ORDER[idx - 1], next = ORDER[idx + 1];
     var c = catOf(a);
+    var fallacies = [];
+    a.sections.forEach(function (s) {
+      s.blocks.forEach(function (b) {
+        if (b && b.fallacy && fallacies.indexOf(b.fallacy) < 0) fallacies.push(b.fallacy);
+      });
+    });
 
     var html =
       '<article>' +
@@ -160,6 +176,7 @@
           return '<button type="button" data-jump="s' + (i + 1) + '" title="' + s.title.replace(/"/g, '&quot;') + '" style="--c:' + SEQ[i % SEQ.length] + ';--w:' + Math.max(1, wordCount(s)) + '">المحور ' + ar(i + 1) + '</button>';
         }).join('') + '</nav>' +
         (a.claim ? '<fieldset class="claim"><legend>' + (a.claimLabel || 'الحجة كما يطرحها أصحابها') + '</legend><p>' + a.claim + '</p></fieldset>' : '') +
+        (fallacies.length ? '<p class="fallacy-index"><span class="tag tag-red">المغالطات في هذا المقال</span>' + fallacies.join(' · ') + '</p>' : '') +
         a.sections.map(function (s, i) {
           return '<section class="q" id="s' + (i + 1) + '">' +
             '<div class="q-num"><b>' + ar(i + 1) + '</b><small>المحور</small></div>' +
