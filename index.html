@@ -24,41 +24,11 @@
       --crimson-light:   #A82424;
       --gold:            #B8903A;
       --rule:            #D6C8A8;
-      --card-bg:         #F0E8D0;
+      --card-bg:         #EDE0C4;
       --card-border:     #DDD0B0;
       --font-display:    'Amiri', serif;
       --font-body:       'Noto Sans Arabic', sans-serif;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --parchment:      #1A1612;
-        --parchment-deep: #231E18;
-        --paper:          #120F0B;
-        --ink:            #F0E8D8;
-        --ink-muted:      #A89880;
-        --crimson:        #C43030;
-        --crimson-light:  #D94040;
-        --gold:           #C8A050;
-        --rule:           #3A3028;
-        --card-bg:        #201C16;
-        --card-border:    #3A3028;
-        color-scheme: dark;
-      }
-    }
-    :root[data-theme="dark"] {
-      --parchment:      #1A1612;
-      --parchment-deep: #231E18;
-      --paper:          #120F0B;
-      --ink:            #F0E8D8;
-      --ink-muted:      #A89880;
-      --crimson:        #C43030;
-      --crimson-light:  #D94040;
-      --gold:           #C8A050;
-      --rule:           #3A3028;
-      --card-bg:        #201C16;
-      --card-border:    #3A3028;
-      color-scheme: dark;
+      color-scheme: light;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -79,8 +49,8 @@
       position: sticky;
       top: env(safe-area-inset-top, 0px);
       z-index: 100;
-      background: var(--ink);
-      color: var(--parchment);
+      background: var(--parchment-deep);
+      color: var(--ink);
       border-bottom: 3px solid var(--crimson);
     }
     .site-header::before {
@@ -88,7 +58,7 @@
       position: fixed;
       inset: 0 0 auto;
       height: env(safe-area-inset-top, 0px);
-      background: var(--ink);
+      background: var(--parchment-deep);
       z-index: 10;
     }
     .nav-inner {
@@ -107,12 +77,12 @@
       font-family: var(--font-display);
       font-size: 1.9rem;
       font-weight: 700;
-      color: var(--parchment);
+      color: var(--ink);
       text-decoration: none;
       white-space: nowrap;
       letter-spacing: -0.01em;
     }
-    .site-logo span { color: #E04040; }
+    .site-logo span { color: var(--crimson); }
 
     .nav-links {
       display: flex;
@@ -124,7 +94,7 @@
     .nav-links a {
       display: block;
       padding: 18px 14px;
-      color: #A89880;
+      color: var(--ink-muted);
       text-decoration: none;
       font-size: 0.84rem;
       font-weight: 500;
@@ -132,11 +102,11 @@
       transition: color 0.15s;
       white-space: nowrap;
     }
-    .nav-links a:hover, .nav-links a.active { color: #E04040; }
+    .nav-links a:hover, .nav-links a.active { color: var(--crimson); }
 
     .nav-tagline {
       font-size: 0.7rem;
-      color: #6A5E54;
+      color: var(--ink-muted);
       white-space: nowrap;
       flex-shrink: 0;
     }
