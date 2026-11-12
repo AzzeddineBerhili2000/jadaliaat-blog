@@ -1,0 +1,79 @@
+{
+  "embryo4wk": {
+    "file": "embryo4wk.png",
+    "title": "File:Gray41.png",
+    "license": "Public domain",
+    "artist": "Henry Vandyke Carter",
+    "page": "https://commons.wikimedia.org/wiki/File:Gray41.png"
+  },
+  "aristotle": {
+    "file": "aristotle.jpg",
+    "title": "File:Aristotle Altemps Inv8575.jpg",
+    "license": "Public domain",
+    "artist": "After Lysippos",
+    "page": "https://commons.wikimedia.org/wiki/File:Aristotle_Altemps_Inv8575.jpg"
+  },
+  "galen": {
+    "file": "galen.jpg",
+    "title": "File:Portrait of Galen Wellcome L0000098.jpg",
+    "license": "CC BY 4.0",
+    "artist": "",
+    "page": "https://commons.wikimedia.org/wiki/File:Portrait_of_Galen_Wellcome_L0000098.jpg"
+  },
+  "hippocrates": {
+    "file": "hippocrates.jpg",
+    "title": "File:Engraving; portrait of Hippocrates, Wellcome L0016239.jpg",
+    "license": "CC BY 4.0",
+    "artist": "Paulus Pontius / After Peter Paul Rubens",
+    "page": "https://commons.wikimedia.org/wiki/File:Engraving;_portrait_of_Hippocrates,_Wellcome_L0016239.jpg"
+  },
+  "hippo_ms": {
+    "file": "hippo_ms.jpg",
+    "title": "File:Hippocratic Corpus, end of Aphorisms, Modena, Archivio Capitolare, O.I.11, fol. 36v.jpg",
+    "license": "Public domain",
+    "artist": "medieval author",
+    "page": "https://commons.wikimedia.org/wiki/File:Hippocratic_Corpus,_end_of_Aphorisms,_Modena,_Archivio_Capitolare,_O.I.11,_fol._36v.jpg"
+  },
+  "palimpsest": {
+    "file": "palimpsest.jpg",
+    "title": "File:Galens' Palimpsest 1.jpg",
+    "license": "CC BY-SA 3.0",
+    "artist": "\"The Galen Syriac Palimpsest\", OPenn,  Hosted by the University of Pennsylvania ",
+    "page": "https://commons.wikimedia.org/wiki/File:Galens%27_Palimpsest_1.jpg"
+  },
+  "chick": {
+    "file": "chick.jpg",
+    "title": "File:Embryo in chicken egg (Gallus domesticus) after 72 hours of incubation.jpg",
+    "license": "CC BY 4.0",
+    "artist": "Monika Tumialis (Eksnazja)",
+    "page": "https://commons.wikimedia.org/wiki/File:Embryo_in_chicken_egg_(Gallus_domesticus)_after_72_hours_of_incubation.jpg"
+  },
+  "plato": {
+    "file": "plato.jpg",
+    "title": "File:Plato Silanion Musei Capitolini MC1377 (cropped).jpg",
+    "license": "Public domain",
+    "artist": "Marie-Lan Nguyen",
+    "page": "https://commons.wikimedia.org/wiki/File:Plato_Silanion_Musei_Capitolini_MC1377_(cropped).jpg"
+  },
+  "leningrad": {
+    "file": "leningrad.jpg",
+    "title": "File:Leningrad Codex Folio 040b.jpg",
+    "license": "Public domain",
+    "artist": "unknown, scan by USC Dornsife",
+    "page": "https://commons.wikimedia.org/wiki/File:Leningrad_Codex_Folio_040b.jpg"
+  },
+  "qurtubi_ms": {
+    "file": "qurtubi_ms.jpg",
+    "title": "File:Tafsir al-Qurtubi 6 bnf.jpg",
+    "license": "Public domain",
+    "artist": "Source gallica.bnf.fr / Bibliothèque nationale de France",
+    "page": "https://commons.wikimedia.org/wiki/File:Tafsir_al-Qurtubi_6_bnf.jpg"
+  },
+  "muslim_ms": {
+    "file": "muslim_ms.jpg",
+    "title": "File:Sahih Muslim, 1867.jpg",
+    "license": "CC BY 4.0",
+    "artist": "Riad Salih",
+    "page": "https://commons.wikimedia.org/wiki/File:Sahih_Muslim,_1867.jpg"
+  }
+}

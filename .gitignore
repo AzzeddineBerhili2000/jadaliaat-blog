@@ -2,3 +2,12 @@
 node_modules
 .DS_Store
 Thumbs.db
+video/node_modules
+video/.env
+video/.env.local
+video/**/*.mp4
+video/**/*.wav
+video/**/*.mp3
+video/**/vo/
+video/**/stills/
+video/**/*.pcm
