@@ -428,6 +428,30 @@ legend { font-family: var(--f-label); font-size: .78rem; color: var(--crimson); 
 }
 .timeline .when { font-family: var(--f-label); font-size: .78rem; color: var(--crimson); padding-top: 5px; line-height: 1.6; }
 
+/* civilisation cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 18px 16px;
+  margin: 16px 0 22px;
+}
+.card { border-top: 4px solid var(--c); padding-top: 6px; min-width: 0; }
+.card small { display: block; font-family: var(--f-label); font-size: .72rem; color: var(--ink-3); }
+.card b { display: block; font-size: 1.15rem; color: var(--ink); line-height: 1.5; margin: 2px 0 4px; }
+.card p { margin: 0; font-size: .98rem; line-height: 1.8; }
+
+/* objection / reply exchange */
+.debate { margin: 18px 0 24px; display: grid; gap: 18px; }
+.debate .round { display: grid; gap: 0; }
+.debate .obj, .debate .rep { padding: 10px 16px 12px; min-width: 0; }
+.debate .obj { background: var(--wash); border-inline-start: 3px solid var(--navy); }
+.debate .rep { border: 1px solid var(--crimson); border-top: 0; }
+.debate span { display: block; font-family: var(--f-label); font-size: .74rem; font-weight: 600; margin-bottom: 2px; }
+.debate .obj span { color: var(--navy); }
+.debate .rep span { color: var(--crimson); }
+.debate p { margin: 0; line-height: 1.85; }
+.debate p + p { margin-top: 8px; }
+
 /* inline citation */
 .ref { font-family: var(--f-label); font-size: .74em; color: var(--ink-3); }
 

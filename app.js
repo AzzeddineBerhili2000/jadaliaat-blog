@@ -155,6 +155,17 @@
           return '<tr>' + r.map(function (c, i) { return '<td data-label="' + b.table.head[i] + '">' + c + '</td>'; }).join('') + '</tr>';
         }).join('') + '</tbody></table></div>';
     }
+    if (b.cards) {
+      return '<div class="cards">' + b.cards.map(function (c, i) {
+        return '<div class="card" style="--c:' + SEQ[i % SEQ.length] + '"><small>' + c.meta + '</small><b>' + c.title + '</b><p>' + c.text + '</p></div>';
+      }).join('') + '</div>';
+    }
+    if (b.debate) {
+      return '<div class="debate">' + b.debate.map(function (d, i) {
+        return '<div class="round"><div class="obj"><span>اعتراض ' + ar(i + 1) + (d.who ? ' · ' + d.who : '') + '</span><p>' + d.q + '</p></div>' +
+          '<div class="rep"><span>الجواب</span><p>' + d.a + '</p></div></div>';
+      }).join('') + '</div>';
+    }
     if (b.quote) return '<blockquote class="quote">' + b.quote + (b.cite ? '<cite>' + b.cite + '</cite>' : '') + '</blockquote>';
     if (b.note) return '<div class="note"><span class="tag">' + (b.label || 'منهجية') + '</span><p>' + b.note + '</p></div>';
     if (b.conclusion) return '<div class="wash"><span class="lbl">' + (b.label || 'الخلاصة') + '</span>' + b.conclusion + '</div>';
