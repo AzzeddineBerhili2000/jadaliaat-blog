@@ -14,8 +14,8 @@
   var BY_ID = {};
   ORDER.forEach(function (a) { BY_ID[a.id] = a; });
 
-  var DIGITS = '٠١٢٣٤٥٦٧٨٩';
-  function ar(v) { return String(v).replace(/[0-9]/g, function (d) { return DIGITS[d]; }); }
+  // The blog uses Western digits (1 2 3) everywhere, by the author's choice.
+  function ar(v) { return String(v); }
 
   // Arabic counting: 1, 2, 3–10, 11+
   function count(n, forms) {
@@ -38,7 +38,7 @@
   }
   function readTime(a) { return Math.max(1, Math.round(wordCount([a.claim, a.sections]) / 160)); }
 
-  var dateFmt = new Intl.DateTimeFormat('ar-EG', { month: 'long', year: 'numeric' });
+  var dateFmt = new Intl.DateTimeFormat('ar-EG-u-nu-latn', { month: 'long', year: 'numeric' });
   function fmtDate(iso) {
     var d = new Date(iso + 'T12:00:00');
     return isNaN(d) ? iso : dateFmt.format(d);
@@ -66,10 +66,16 @@
   }
 
   /* ── Home / category ─────────────────────────────────────────── */
+  // The three most recent articles get a "جديد" badge on the index.
+  var NEWEST = LIST.slice().map(function (a, i) { return { a: a, i: i }; })
+    .sort(function (x, y) { return x.a.date < y.a.date ? 1 : x.a.date > y.a.date ? -1 : y.i - x.i; })
+    .slice(0, 3).map(function (x) { return x.a.id; });
+
   function row(a, n) {
-    return '<a class="row" href="#/a/' + a.id + '">' +
+    var hay = (a.title + ' ' + a.excerpt + ' ' + catOf(a).name).replace(/<[^>]*>/g, ' ').replace(/"/g, '');
+    return '<a class="row" href="#/a/' + a.id + '" data-text="' + hay + '">' +
       '<span class="n">' + ar(n) + '</span>' +
-      '<span class="t">' + a.title + '</span>' +
+      '<span class="t">' + a.title + (NEWEST.indexOf(a.id) >= 0 ? ' <span class="new">جديد</span>' : '') + '</span>' +
       '<span class="star" aria-hidden="true">✻</span>' +
       '<span class="x"><span class="ex">' + a.excerpt + '</span><small>' + meta(a) + '</small></span>' +
     '</a>';
@@ -80,7 +86,7 @@
     var items = cat ? ORDER.filter(function (a) { return a.category === cat; }) : ORDER;
     var title = c ? accented(c.name, c.name.split(' ').pop()) : 'جدليّاتُ <span class="accent">العقل</span>';
     var lede = c ? c.desc : 'مدوّنة <b>نقدية</b> بالعربية · قراءاتٌ في الحجج التي يُستدَل بها على صحة الدين — بالدليل لا بالتسليم';
-    var stampNoun = count(items.length, ARTICLES_N).replace(/^[٠-٩]+ /, '');
+    var stampNoun = count(items.length, ARTICLES_N).replace(/^[0-9]+ /, '');
     if (items.length <= 2) stampNoun = items.length === 1 ? 'مقال' : 'مقالان';
 
     var html =
@@ -119,7 +125,9 @@
 
     html +=
       '<div class="sec-head"><h2>فهرس المقالات</h2><span class="line"></span><span class="boxed">' + count(items.length, ARTICLES_N) + '</span></div>' +
+      (items.length > 3 ? '<div class="search"><input type="search" id="find" placeholder="ابحث في العناوين والملخّصات…" aria-label="ابحث في المقالات" autocomplete="off"></div>' : '') +
       (groups || '<p class="empty">لا توجد مقالات في هذا القسم بعد.</p>') +
+      '<p class="empty" id="no-hits" hidden>لا يوجد مقال يطابق بحثك.</p>' +
       '<div class="foot-notes"><p><b>منهج المدوّنة:</b> نناقش الحجج لا الأشخاص · <b>المصادر:</b> مذكورة في آخر كل مقال · <b>الألوان:</b> يدل لون الخط الجانبي على القسم</p></div>' +
       pageFoot('<b>الفهرس</b>');
     return html;
@@ -178,6 +186,17 @@
     return '';
   }
 
+  var SECTIONS = ['محور واحد', 'محوران', 'محاور', 'محوراً'];
+
+  // Numbered list of section titles with each section's reading time; reused in the floating panel.
+  function tocList(a) {
+    return '<ol class="toc-list">' + a.sections.map(function (s, i) {
+      var mins = Math.max(1, Math.round(wordCount(s) / 160));
+      return '<li><button type="button" data-jump="s' + (i + 1) + '" style="--c:' + SEQ[i % SEQ.length] + '">' +
+        '<span class="tn">' + ar(i + 1) + '</span><span class="tt">' + s.title + '</span><small>' + ar(mins) + ' د</small></button></li>';
+    }).join('') + '</ol>';
+  }
+
   function renderArticle(a) {
     var idx = ORDER.indexOf(a);
     var prev = ORDER[idx - 1], next = ORDER[idx + 1];
@@ -195,9 +214,10 @@
           '<a class="boxed" href="#/c/' + a.category + '">' + c.name + '</a></header>' +
         '<p class="art-sub">' + a.subtitle + '</p>' +
         '<p class="art-meta">' + meta(a) + '</p>' +
-        '<nav class="segbar" aria-label="محاور المقال">' + a.sections.map(function (s, i) {
-          return '<button type="button" data-jump="s' + (i + 1) + '" title="' + s.title.replace(/"/g, '&quot;') + '" style="--c:' + SEQ[i % SEQ.length] + ';--w:' + Math.max(1, wordCount(s)) + '">المحور ' + ar(i + 1) + '</button>';
-        }).join('') + '</nav>' +
+        '<nav class="toc" aria-label="فهرس المقال">' +
+          '<div class="toc-head"><span class="tag">فهرس المقال</span><small>' + count(a.sections.length, SECTIONS) + ' · ' + count(readTime(a), MINUTES) + '</small></div>' +
+          tocList(a) +
+        '</nav>' +
         (a.claim ? '<fieldset class="claim"><legend>' + (a.claimLabel || 'الحجة كما يطرحها أصحابها') + '</legend><p>' + a.claim + '</p></fieldset>' : '') +
         (fallacies.length ? '<p class="fallacy-index"><span class="tag tag-red">المغالطات في هذا المقال</span>' + fallacies.join(' · ') + '</p>' : '') +
         a.sections.map(function (s, i) {
@@ -214,6 +234,7 @@
           (prev ? '<a class="prev" href="#/a/' + prev.id + '"><small>→ المقال السابق</small><span>' + prev.title + '</span></a>' : '<span></span>') +
           (next ? '<a class="next" href="#/a/' + next.id + '"><small>المقال التالي ←</small><span>' + next.title + '</span></a>' : '<span></span>') +
         '</nav>' +
+        '<p class="back-index"><a href="#/c/' + a.category + '">كل مقالات «' + c.name + '»</a><a href="#/">فهرس المدوّنة</a></p>' +
       '</article>' +
       pageFoot('مقال <b>' + ar(idx + 1) + '</b> / ' + ar(ORDER.length));
     return html;
@@ -268,16 +289,109 @@
 
     renderNav(active);
     document.title = title;
+    closePanel();
+    setReader(kind === 'a' && BY_ID[id] ? BY_ID[id] : null);
     window.scrollTo(0, 0);
     if (started) app.focus({ preventScroll: true });
     started = true;
   }
 
-  app.addEventListener('click', function (e) {
+  /* ── Reading bar: current section, progress, floating contents ── */
+  var readbar = document.getElementById('readbar');
+  var rbTitle = document.getElementById('rb-title');
+  var rbProg = document.getElementById('rb-prog');
+  var rbToc = document.getElementById('rb-toc');
+  var panel = document.getElementById('toc-panel');
+  var tpList = document.getElementById('tp-list');
+  var reading = null, sections = [], current = -1, ticking = false;
+
+  function setReader(a) {
+    reading = a;
+    current = -1;
+    if (!readbar) return;
+    readbar.hidden = true;
+    if (!a) { sections = []; return; }
+    tpList.innerHTML = tocList(a);
+    sections = a.sections.map(function (s, i) { return document.getElementById('s' + (i + 1)); });
+    onScroll();
+  }
+
+  function markCurrent(i) {
+    if (i === current) return;
+    current = i;
+    rbTitle.textContent = i >= 0 ? ar(i + 1) + ' · ' + reading.sections[i].title.replace(/<[^>]*>/g, '') : reading.title;
+    document.querySelectorAll('.toc-list button').forEach(function (b) {
+      if (b.getAttribute('data-jump') === 's' + (i + 1)) b.setAttribute('aria-current', 'true');
+      else b.removeAttribute('aria-current');
+    });
+  }
+
+  function update() {
+    ticking = false;
+    if (!reading || !readbar) return;
+    var toc = app.querySelector('.toc');
+    var article = app.querySelector('article');
+    if (!toc || !article) return;
+    readbar.hidden = toc.getBoundingClientRect().bottom > 0;
+    var top = article.getBoundingClientRect().top + window.scrollY;
+    var span = article.offsetHeight - window.innerHeight;
+    var p = span > 0 ? (window.scrollY - top) / span : 1;
+    rbProg.style.transform = 'scaleX(' + Math.min(1, Math.max(0, p)) + ')';
+    var i = -1;
+    for (var k = 0; k < sections.length; k++) {
+      if (sections[k] && sections[k].getBoundingClientRect().top < 120) i = k;
+    }
+    markCurrent(i);
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+
+  function openPanel() {
+    if (!panel) return;
+    panel.hidden = false;
+    rbToc.setAttribute('aria-expanded', 'true');
+    var cur = panel.querySelector('[aria-current]') || panel.querySelector('button[data-jump]');
+    if (cur) cur.focus({ preventScroll: true });
+  }
+  function closePanel() {
+    if (!panel || panel.hidden) return;
+    panel.hidden = true;
+    rbToc.setAttribute('aria-expanded', 'false');
+  }
+
+  document.addEventListener('click', function (e) {
     var btn = e.target.closest('[data-jump]');
-    if (!btn) return;
-    var target = document.getElementById(btn.getAttribute('data-jump'));
-    if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    if (btn) {
+      var target = document.getElementById(btn.getAttribute('data-jump'));
+      closePanel();
+      if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      return;
+    }
+    if (e.target.closest('#rb-toc')) { panel.hidden ? openPanel() : closePanel(); return; }
+    if (e.target.closest('[data-close]')) { closePanel(); return; }
+    if (e.target.closest('#rb-top')) window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePanel(); });
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+
+  /* ── Index search: filters rows by title, excerpt and section name ── */
+  app.addEventListener('input', function (e) {
+    if (e.target.id !== 'find') return;
+    var q = e.target.value.trim().replace(/[ً-ْٰـ]/g, '');
+    var shown = 0;
+    app.querySelectorAll('.group').forEach(function (g) {
+      var any = false;
+      g.querySelectorAll('.row').forEach(function (r) {
+        var ok = !q || r.getAttribute('data-text').replace(/[ً-ْٰـ]/g, '').indexOf(q) >= 0;
+        r.hidden = !ok;
+        if (ok) { any = true; shown++; }
+      });
+      g.hidden = !any;
+    });
+    var none = document.getElementById('no-hits');
+    if (none) none.hidden = shown > 0;
   });
 
   window.addEventListener('hashchange', route);

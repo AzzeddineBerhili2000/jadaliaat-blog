@@ -22,11 +22,26 @@
       <header class="mast">
         <a class="badge" href="#/">جدليات</a>
         <nav class="mast-nav" id="nav" aria-label="القائمة الرئيسية"></nav>
-        <span class="mast-meta">العدد الأول · ٢٠٢٦</span>
+        <span class="mast-meta">العدد الأول · 2026</span>
       </header>
       <main id="app" tabindex="-1">
         <noscript><p class="noscript">يحتاج هذا الموقع إلى تفعيل جافاسكربت في المتصفح.</p></noscript>
       </main>
+    </div>
+  </div>
+  <div class="readbar" id="readbar" hidden>
+    <div class="rb-in">
+      <button type="button" class="rb-btn" id="rb-toc" aria-expanded="false" aria-controls="toc-panel">☰ الفهرس</button>
+      <span class="rb-title" id="rb-title"></span>
+      <button type="button" class="rb-btn" id="rb-top" aria-label="العودة إلى أعلى المقال">↑</button>
+    </div>
+    <div class="rb-prog"><i id="rb-prog"></i></div>
+  </div>
+  <div class="toc-panel" id="toc-panel" hidden>
+    <div class="tp-back" data-close></div>
+    <div class="tp-box" role="dialog" aria-modal="true" aria-label="فهرس المقال">
+      <div class="tp-head"><span class="tag">فهرس المقال</span><button type="button" class="rb-btn" data-close aria-label="إغلاق الفهرس">✕</button></div>
+      <div id="tp-list"></div>
     </div>
   </div>
   <script src="articles.js"></script>
