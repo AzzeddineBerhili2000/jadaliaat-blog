@@ -160,6 +160,12 @@
         return '<div class="card" style="--c:' + SEQ[i % SEQ.length] + '"><small>' + c.meta + '</small><b>' + c.title + '</b><p>' + c.text + '</p></div>';
       }).join('') + '</div>';
     }
+    if (b.exhibits) {
+      return '<div class="exhibits">' + b.exhibits.map(function (e, i) {
+        return '<div class="exhibit"><span class="ex-no">الدليل ' + ar(i + 1) + '</span><b>' + e.name + '</b>' +
+          '<dl><dt>المكان</dt><dd>' + e.where + '</dd><dt>التاريخ</dt><dd>' + e.when + '</dd></dl><p>' + e.text + '</p></div>';
+      }).join('') + '</div>';
+    }
     if (b.debate) {
       return '<div class="debate">' + b.debate.map(function (d, i) {
         return '<div class="round"><div class="obj"><span>اعتراض ' + ar(i + 1) + (d.who ? ' · ' + d.who : '') + '</span><p>' + d.q + '</p></div>' +
